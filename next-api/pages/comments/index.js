@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from 'next/link'
 
 function CommentsPage() {
   const [comments, setComments] = useState([]);
@@ -45,6 +46,9 @@ function CommentsPage() {
           <div key={comment.id}>
             {comment.id} {comment.text}
             <button onClick={() => deleteComment(comment.id)}>Delete</button>
+            <Link href={`/comments/${comment.id}`}>
+                <a>Details</a>
+            </Link>
           </div>
         );
       })}

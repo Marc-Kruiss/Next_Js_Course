@@ -1,3 +1,6 @@
+/*
+Imported in _app.js
+*/
 html,
 body {
   padding: 0;
@@ -23,4 +26,9 @@ a {
     color: white;
     background: black;
   }
+}
+
+h2{
+  color: red;
+  font-weight: bold;
 }

@@ -1,7 +1,8 @@
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import "../styles/globals.css";
-import "../styles/layout.css";
+// imports without '../' because of absolut imports defined in 'jsconfig.json'
+import Footer from "@/layout/Footer";
+import Header from "@/layout/Header";
+import "styles/globals.css";
+import "styles/layout.css";
 import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {

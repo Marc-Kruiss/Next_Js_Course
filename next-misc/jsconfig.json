@@ -1,0 +1,9 @@
+// use of absolut imports
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths":{
+            "@/layout/*":["components/layout/*"]
+        }
+    }
+}

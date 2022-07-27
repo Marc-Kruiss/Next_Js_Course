@@ -4,7 +4,8 @@
 This is a course which discovers the main features of the framework Next.js
 - APIs, 
 - Authentication, 
-- Misc, 
+- Preview-Mode
+- Style Options (SCSS, Styled-components, Bootstrap, ...)
 - Pre-rendering (SSG, SSR,ISR,CSR), 
 - Routing  
 - Styling

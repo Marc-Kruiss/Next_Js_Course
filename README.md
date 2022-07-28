@@ -3,7 +3,8 @@
 
 This is a course which discovers the main features of the framework Next.js
 - APIs, 
-- Authentication, 
+- Authentication (next-auth, github, email) incl. securing the app, 
+- Working with database
 - Preview-Mode
 - Style Options (SCSS, Styled-components, Bootstrap, ...)
 - Pre-rendering (SSG, SSR,ISR,CSR), 

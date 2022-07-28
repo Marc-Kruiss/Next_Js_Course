@@ -2,8 +2,8 @@ import { getSession,useSession } from 'next-auth/react';
 
 function Blog({blogsdata}){
     const {data:session}=useSession()
-    console.log('blog auth')
-    console.log(session)
+    //console.log('blog auth')
+    //console.log(session)
     return <h1>Blog Page - {blogsdata}</h1>
 }
 
@@ -12,7 +12,7 @@ export default Blog
 
 export async function getServerSideProps(context){
     const session = await getSession(context);
-    console.log(session)
+    //console.log(session)
 
     if(!session){
         return{

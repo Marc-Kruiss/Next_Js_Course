@@ -3,9 +3,27 @@ import Image from "next/image";
 import Contact from "../components/contact/contact";
 import styles from "../styles/Home.module.css";
 import React, { useState } from "react";
+import { PrismaClient /*Contact*/ } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export async function getServerSideProps() {
+  const contacts = await prisma.contact.findMany();
+
+  return {
+    props: {
+      initialContacts: contacts,
+    },
+  };
+}
 
 export default function Home({ initialContacts }) {
   const [contacts, setContacts] = useState(initialContacts);
+
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [avatar, setAvatar] = useState("");
   return (
     <div className={styles.container}>
       <Head>
@@ -22,6 +40,7 @@ export default function Home({ initialContacts }) {
               name="firstname"
               class=" ml-5 w-96 h-20 text-slate-700  mt-5 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1"
               placeholder="Firstname"
+              onChange={(e) => setFirstname(e.target.value)}
             />
           </label>
           <label class="block">
@@ -30,6 +49,7 @@ export default function Home({ initialContacts }) {
               name="lastname"
               class=" ml-5 w-96 h-20 text-slate-700  mt-5 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1"
               placeholder="Lastname"
+              onChange={(e) => setLastname(e.target.value)}
             />
           </label>
           <label class="block">
@@ -38,6 +58,7 @@ export default function Home({ initialContacts }) {
               name="email"
               class=" ml-5 w-96 h-20 text-slate-700  mt-5 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1"
               placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </label>
           <label class="block">
@@ -46,10 +67,16 @@ export default function Home({ initialContacts }) {
               name="avatar"
               class=" ml-5 w-96 h-20 text-slate-700  mt-5 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1"
               placeholder="Avatar"
+              onChange={(e) => setAvatar(e.target.value)}
             />
           </label>
-          <button class="bg-violet-500 shadow-sm rounded-lg w-4/5 h-8  mt-7 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
-          onClick={saveContact}>
+          <button
+            class="bg-violet-500 shadow-sm rounded-lg w-4/5 h-8  mt-7 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
+            onClick={async() => {
+              const addedContact= await saveContact(firstname, lastname, email, avatar)
+              setContacts([...contacts,addedContact])
+            }}
+          >
             Save changes
           </button>
         </div>
@@ -78,31 +105,21 @@ export default function Home({ initialContacts }) {
   );
 }
 
-function saveContact(){
-
-}
-
-export async function getServerSideProps() {
-  let contacts = [
-    {
-      id: "1",
-      firstname: "Marc",
-      lastname: "Kruiß",
-      email: "k.marc@a1.net",
-      avatar: "https://github.com/Marc-Kruiss.png",
-    },
-    {
-      id: "2",
-      firstname: "Patrick",
-      lastname: "Kruiß",
-      email: "k.marc@a1.net",
-      avatar: "https://github.com/Marc-Kruiss.png",
-    },
-  ];
-
-  return {
-    props: {
-      initialContacts: contacts,
-    },
+async function saveContact(firstname, lastname, email, avatar) {
+  const newContact = {
+    firstName: firstname,
+    lastName: lastname,
+    email: email,
+    avatar: avatar,
   };
+
+  const response = await fetch("/api/contacts", {
+    method: "POST",
+    body: JSON.stringify(newContact),
+  });
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  return await response.json();
 }

@@ -2,10 +2,10 @@ import Head from "next/head";
 import Image from "next/image";
 import Contact from "../components/contact/contact";
 import styles from "../styles/Home.module.css";
-import React,{useState} from "react";
+import React, { useState } from "react";
 
-export default function Home({initialContacts}) {
-  const [contacts, setContacts] = useState(initialContacts)
+export default function Home({ initialContacts }) {
+  const [contacts, setContacts] = useState(initialContacts);
   return (
     <div className={styles.container}>
       <Head>
@@ -48,16 +48,16 @@ export default function Home({initialContacts}) {
               placeholder="Avatar"
             />
           </label>
+          <button class="bg-violet-500 shadow-sm rounded-lg w-4/5 h-8  mt-7 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
+          onClick={saveContact}>
+            Save changes
+          </button>
         </div>
         <div class="bg-blue-400 w-4/5">
-        <ul role="list" class="p-6 divide-y divide-slate-200">
-          {
-            contacts.map((contact)=>{
-              return(
-                <Contact person={contact} />
-              )
-            })
-          }
+          <ul role="list" class="p-6 divide-y divide-slate-200">
+            {contacts.map((contact) => {
+              return <Contact person={contact} />;
+            })}
           </ul>
         </div>
       </main>
@@ -76,6 +76,10 @@ export default function Home({initialContacts}) {
       </footer>
     </div>
   );
+}
+
+function saveContact(){
+
 }
 
 export async function getServerSideProps() {
